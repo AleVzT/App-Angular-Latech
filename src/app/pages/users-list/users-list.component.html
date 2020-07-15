@@ -1,0 +1,34 @@
+<h4> LISTA DE USUARIOS </h4>
+
+<hr>
+
+<div class="row">
+  <div class="cols">
+    <table class="responsive-table">
+      <thead>
+        <tr>
+            <th>#</th>
+            <th>Nombre y apellidos</th>
+            <th>Correo</th>
+            <th>Administrador</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ usuario.nombre }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>
+            <div class="switch">
+              <label>Off<input  type="checkbox"
+                                (click)="actualizarUser(usuario)"
+                                [disabled]="activateUser === usuario.email? true : false "
+                                [checked]="usuario.typeUser=='admin'? true : false">
+              <span class="lever"></span>On</label>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

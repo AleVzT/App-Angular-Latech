@@ -1,0 +1,29 @@
+<nav>
+  <div class="nav-wrapper light-blue darken-4">
+    <div class="container">
+      <a routerLink="/classList" class="brand-logo">
+        <img class="responsive-img" style="width: 250px;" src="../../assets/images/latech-logo.png" />
+      </a>
+      
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li routerLinkActive="active"><a routerLink="/classList">Clases</a></li>
+        <li routerLinkActive="active" *ngIf="!userAdmin"><a routerLink="/myClass">Mis Clases</a></li>
+        <li routerLinkActive="active" *ngIf="userAdmin"><a routerLink="/userList">Users</a></li>
+        <li (click)="logout()"><a>Salir</a></li>
+      </ul>
+    </div>
+    <!-- Mobile Version -->
+    <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+      <i class="material-icons">menu</i>
+    </a>
+    <!-- Mobile Version -->
+    <ul class="sidenav" id="mobile-demo">
+      <li routerLinkActive="active" *ngIf="true"><a routerLink="/classList">Clases</a></li>
+      <li routerLinkActive="active" *ngIf="false"><a routerLink="/classList">Mis Clases</a></li>
+      <li routerLinkActive="active"><a routerLink="/userList">Users</a></li>
+      <li (click)="logout()"><a>Salir</a></li>
+    </ul>
+  </div>
+</nav>
+
+

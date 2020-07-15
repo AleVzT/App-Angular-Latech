@@ -1,0 +1,39 @@
+.container {
+    text-align: center;
+    padding-top: 10%;
+}
+
+.card {
+    position: fixed;
+    height: 100%;
+    margin: 0;
+}
+
+.registro-card {
+    padding: 0;
+    float: none;
+}
+
+.registro-seccion {
+    background-image: url("../../assets/images/login-background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+}
+
+.version {
+    top: 0%;
+    padding-left: 95%;
+    position: absolute;
+    color: #1c1c1c;
+}
+
+.warningMsj {
+    text-align: left;
+    color: red;
+    font-size: 12px;
+
+}

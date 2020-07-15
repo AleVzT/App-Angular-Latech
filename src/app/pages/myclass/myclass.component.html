@@ -1,0 +1,15 @@
+
+<h4>MIS CLASES</h4>
+
+<hr>
+
+<div class="row">
+  <div class="col">
+    <app-class-card [data]="clases" [tipoClase]="typeClass"></app-class-card>
+  </div>
+  <div class="col m12" *ngIf="clases.length === 0">
+    <div class="materialert">
+      <h4>No hay registros<br/><br/><span style="font-weight: bold; font-size: 3.5rem;">!</span></h4>
+    </div>  
+  </div>
+</div>

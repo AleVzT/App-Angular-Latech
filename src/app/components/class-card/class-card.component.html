@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col s12 m4" *ngFor="let clase of clases; let i = index">
+    <div class="card">
+      <div class="card-image">
+        <img src="../../assets/images/image-clase.png">
+        <span class="card-title" style="text-transform: uppercase;">{{ clase.name }}</span>
+      </div>
+      <div class="card-content">
+        <p> {{ clase.desc }} </p>
+      </div>
+      <div class="card-action" style="text-align: center;">
+        <button *ngIf="userAdmin" class="btn waves-effect light-blue darken-4 btn-small" type="btn" name="editar" [routerLink]="['/addClass', clase.id]">Editar
+          <i class="material-icons right">edit</i>
+        </button>
+        <button *ngIf="userAdmin" class="btn waves-effect light-blue darken-4 secondary-content btn-small" type="btn" (click)="borrarClase( clase, i )" name="borrar">Borrar
+          <i class="material-icons right">delete</i>
+        </button>
+        <button *ngIf="!userAdmin && !tipoClase" class="btn waves-effect light-blue darken-4 btn-small" type="btn" name="subs" (click)="subscribe( clase )">Subscribirse
+          <i class="material-icons right">arrow_forward</i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

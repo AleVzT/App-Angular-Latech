@@ -1,0 +1,30 @@
+<h4>AGREGAR CLASE</h4>
+
+<hr>
+
+<button class="btn waves-effect light-blue darken-4 secondary-content" type="button" name="action" routerLink="/classList">Regresar
+  <i class="material-icons left">arrow_back</i>
+</button>
+<br/><br/>
+<div class="row" style="margin-left: 20%;">
+  <div class="col s12 m8">
+    <form (ngSubmit)="agregar(formNew)" #formNew="ngForm" autocomplete="off">
+      <div class='row'>
+        <div class='input-field'>
+          <input class='validate' type='text' name='claseName' id='claseName' [(ngModel)]="clase.name" #claseName="ngModel" required/>
+          <label for='claseName'>Nombre Clase</label>
+      </div>
+      </div>
+      <div class='row'>
+        <div class='input-field'>
+            <input class='validate' type='text' name='claseDesc' id='claseDesc' [(ngModel)]="clase.desc" #claseDesc="ngModel" required/>
+            <label for='claseDesc'>Descripción Clase</label>
+        </div>
+      </div>
+      <br />
+      <div class='row'>
+          <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect light-blue darken-4'  id="submit" [disabled]="!formNew.valid">GUARDAR</button>
+      </div>
+    </form>
+  </div>
+</div>
