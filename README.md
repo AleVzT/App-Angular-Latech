@@ -81,3 +81,6 @@ Si por alguna extraña razon esto no llegará a pasar puedes colocar en la barra
     http://localhost:4200/
 
 Esto debería cargar la página inicial de nuestra app web.
+
+## NOTA IMPORTANTE:
+Para el funciona de la app, esta debe estar integrada al backend server.
