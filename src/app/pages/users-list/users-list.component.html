@@ -16,14 +16,14 @@
       <tbody>
         <tr *ngFor="let usuario of usuarios; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ usuario.nombre }}</td>
+          <td>{{ usuario.name }}</td>
           <td>{{ usuario.email }}</td>
           <td>
             <div class="switch">
               <label>Off<input  type="checkbox"
                                 (click)="actualizarUser(usuario)"
-                                [disabled]="activateUser === usuario.email? true : false "
-                                [checked]="usuario.typeUser=='admin'? true : false">
+                                [disabled]="data.email === usuario.email? true : false "
+                                [checked]="usuario.typeuser">
               <span class="lever"></span>On</label>
             </div>
           </td>

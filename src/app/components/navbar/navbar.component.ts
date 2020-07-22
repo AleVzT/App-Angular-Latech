@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/user.service';
+
+import { UsuarioModel } from '../../models/usuario.model';
 
 declare var M: any;
 
@@ -11,19 +14,25 @@ declare var M: any;
 })
 export class NavbarComponent implements OnInit {
 
-  userAdmin = false;
+  userAdmin = true;
+  data: UsuarioModel;
 
   constructor(
     private router: Router,
-    private auth: AuthService
+    private auth: AuthService,
+    private user: UserService
   ) { }
 
   ngOnInit() {
 
-    this.userAdmin = localStorage.getItem('type') === 'admin' ? true : false;
-
+    /* this.userAdmin = localStorage.getItem('type') === 'admin' ? true : false; */
     const elems = document.querySelectorAll('.sidenav');
     const instances = M.Sidenav.init(elems);
+
+    this.user.getAllState().subscribe( state => {
+      const stateTemp: any = state;
+      this.data = stateTemp.appReducer;
+    });
 
   }
 

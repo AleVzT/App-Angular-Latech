@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
+import { UserService } from '../../services/user.service';
+
 import { UsuarioModel } from '../../models/usuario.model';
 
 import Swal from 'sweetalert2';
@@ -14,16 +16,25 @@ export class UsersListComponent implements OnInit {
 
   usuarios: UsuarioModel[] = [];
   activateUser: string;
+  data: UsuarioModel;
 
   constructor(
     private router: Router,
-    private shared: SharedService
+    private shared: SharedService,
+    private user: UserService
   ) { }
 
   ngOnInit() {
 
-    this.activateUser = localStorage.getItem('usuario');
+    this.cargarUsuarios();
+    this.user.getAllState().subscribe( state => {
+      const stateTemp: any = state;
+      this.data = stateTemp.appReducer;
+    });
 
+  }
+
+  cargarUsuarios() {
     Swal.fire({
       allowOutsideClick: false,
       type: 'info',
@@ -33,9 +44,8 @@ export class UsersListComponent implements OnInit {
 
     this.shared.getUsuarios()
       .subscribe( resp => {
-
-        Swal.close();
         this.usuarios = resp;
+        Swal.close();
       });
   }
 
@@ -49,10 +59,10 @@ export class UsersListComponent implements OnInit {
     }).then( resp => {
 
       if ( resp.value ) {
-        usuario.typeUser = usuario.typeUser === 'admin' ? 'users' : 'admin';
+        usuario.typeuser = usuario.typeuser ? false : true;
         this.shared.actualizarUsuario(usuario).subscribe();
       } else {
-        this.ngOnInit();
+        this.cargarUsuarios();
       }
     });
   }

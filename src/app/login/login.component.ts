@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
+import { ACTION_LOGIN } from '../store/app.actions';
+
 import { UsuarioModel } from '../models/usuario.model';
 
 import Swal from 'sweetalert2';
-
 
 @Component({
   selector: 'app-login',
@@ -21,6 +23,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private auth: AuthService,
+    private users: UserService
   ) { }
 
   ngOnInit() {
@@ -29,8 +32,11 @@ export class LoginComponent implements OnInit {
   login() {
 
     this.auth.login( this.user )
-      .subscribe( resp => {
-        if ( !resp ) {
+      .subscribe(
+        resp => {
+        const data: any = resp;
+        // console.log(data);
+        if ( !data.ok) {
           Swal.fire({
             type: 'error',
             title: 'Error al autenticar',
@@ -38,6 +44,10 @@ export class LoginComponent implements OnInit {
           });
         } else {
           this.router.navigateByUrl('/classList');
+          this.users.updateState({
+            action: ACTION_LOGIN,
+            data: data.data
+          });
         }
       });
 

@@ -5,108 +5,111 @@ import { map } from 'rxjs/operators';
 
 import { UsuarioModel } from '../models/usuario.model';
 import { ClaseModel } from '../models/clase.model';
+import { ResponseModel } from '../models/subscrito';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
 
-  /* Url de la REaltime Database de firestore */
-  private url = 'https://firestore-latech.firebaseio.com';
+  private url =  'http://localhost:5000/firestore-latech/us-central1/api';
 
   constructor(
     private http: HttpClient
   ) { }
 
-  /* consultar todos los usuarios registrados */
+  /* consultar todos los usuarios registrados - OK!!*/
   getUsuarios() {
 
-    return this.http.get(`${ this.url }/usuario.json`)
+    return this.http.get(`${ this.url }/usuarios`)
     .pipe(
-      map( this.crearArreglo )
+      map( resp => {
+        return this.crearArreglo(resp);
+      })
     );
   }
 
-  /* modificar un usuario por id */
+  /* modificar un usuario por id - OK!! */
   actualizarUsuario( usuario: UsuarioModel ) {
-    const usuarioTemp = {
-      ...usuario
-    };
-    delete usuarioTemp.id;
 
-    return this.http.put(`${ this.url }/usuario/${ usuario.id }.json`, usuarioTemp);
+    return this.http.put(`${ this.url }/usuario/${ usuario.id }`, usuario);
   }
 
-  /* crear una subscripcion */
-  crearSubscrito( subscrito ) {
 
-    return this.http.post(`${ this.url }/subscrito.json`, subscrito);
-  }
-
-  /* crear una clase */
+  /* crear una clase - OK!!*/
   crearClase( clase ) {
 
-    return this.http.post(`${ this.url }/clase.json`, clase);
-  }
+    const claseTemp = {
+      id: clase.name.replace(/ /g, '').toLowerCase(),
+      ...clase
+    }
 
-  /* consulta una clase por id */
+    return this.http.post(`${ this.url }/clases`, claseTemp);
+  }
+  
+  /* Consulta una clase por id - OK!! */
   getClase( id: string ) {
 
-    return this.http.get(`${ this.url }/clase/${ id }.json`);
+    return this.http.get(`${ this.url }/clase/${ id }`);
   }
-
-  /* consulta todas las clases */
+  
+  /* Consulta todas las clases - OK!!*/
   getClases() {
-
-    return this.http.get(`${ this.url }/clase.json`)
-            .pipe(
-              map( this.crearArreglo )
-            );
+    
+    return this.http.get(`${ this.url }/clases`)
+      .pipe(
+        map( resp => {
+          return this.crearArreglo(resp);
+        })
+      );
   }
 
-  /* Borrar clase por id */
+  /* Borrar clase por id - OK!! */
   borrarClase( id: string ) {
-
-    return this.http.delete(`${ this.url }/clase/${ id }.json`);
+    
+    return this.http.delete(`${ this.url }/clase/${ id }`);
   }
-
-  /* Editar una clase por id */
+  
+  /* Editar una clase por id - OK!! */
   actualizarClase( clase: ClaseModel ) {
-    const claseTemp = {
-      ...clase
-    };
-    delete claseTemp.id;
-
-    return this.http.put(`${ this.url }/clase/${ clase.id }.json`, claseTemp);
+    
+    return this.http.put(`${ this.url }/clase/${ clase.id }`, clase);
   }
 
-  /* consultar clases subscritas de un usuario por id */
+  /* consultar clases subscritas de un usuario por id - OK!! */
   consultarClase( id: string ) {
 
-    return this.http.get(`${ this.url }/subscrito.json`)
+    return this.http.get(`${ this.url }/subs/${ id }`)
             .pipe(
-              map( resp => {
-                const SubsTemp = this.crearArreglo(resp);
+              map((resp: ResponseModel) => {
                 const clasesT = [];
-                SubsTemp.forEach(element => {
-                  if ( element.usuario === id ) {
-                    this.getClase( element.clase )
-                      .subscribe( res => {
-                        clasesT.push( res );
-                      });
-                  }
-                });
+                if(resp.ok) {
+                  let claseArray = this.crearArregloSubs(resp.clases);
+                  claseArray.forEach( element => {
+                    this.getClase(element).subscribe( res => {
+                      clasesT.push(res);
+                    });
+                  });
+                } 
                 return clasesT;
               })
             );
   }
+  
+  /* crear una subscripcion */
+  crearSubscrito( subscrito ) {
+    return this.http.post(`${ this.url }/subs`, subscrito);
+  }
 
   /* Convertir el Objeto en arreglo */
+  private crearArregloSubs( tempObj: object ) {
+    return Object.keys( tempObj )
+  }
+
   private crearArreglo( tempObj: object ) {
     const arrayTemp = [];
     Object.keys( tempObj ).forEach( key => {
-      const temp: ClaseModel = tempObj[key];
-      temp.id = key;
+      const temp = tempObj[key];
       arrayTemp.push( temp );
     });
 

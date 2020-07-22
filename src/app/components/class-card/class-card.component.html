@@ -9,13 +9,13 @@
         <p> {{ clase.desc }} </p>
       </div>
       <div class="card-action" style="text-align: center;">
-        <button *ngIf="userAdmin" class="btn waves-effect light-blue darken-4 btn-small" type="btn" name="editar" [routerLink]="['/addClass', clase.id]">Editar
+        <button *ngIf="data.typeuser" class="btn waves-effect light-blue darken-4 btn-small" type="btn" name="editar" [routerLink]="['/addClass', clase.id]">Editar
           <i class="material-icons right">edit</i>
         </button>
-        <button *ngIf="userAdmin" class="btn waves-effect light-blue darken-4 secondary-content btn-small" type="btn" (click)="borrarClase( clase, i )" name="borrar">Borrar
+        <button *ngIf="data.typeuser" class="btn waves-effect light-blue darken-4 secondary-content btn-small" type="btn" (click)="borrarClase( clase, i )" name="borrar">Borrar
           <i class="material-icons right">delete</i>
         </button>
-        <button *ngIf="!userAdmin && !tipoClase" class="btn waves-effect light-blue darken-4 btn-small" type="btn" name="subs" (click)="subscribe( clase )">Subscribirse
+        <button *ngIf="!data.typeuser && !myclass" class="btn waves-effect light-blue darken-4 btn-small" type="btn" name="subs" (click)="subscribe( clase )">Subscribirse
           <i class="material-icons right">arrow_forward</i>
         </button>
       </div>

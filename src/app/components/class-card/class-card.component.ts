@@ -1,9 +1,12 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
-import { ClaseModel } from '../../models/clase.model';
 import { SharedService } from '../../services/shared.service';
+import { UserService } from '../../services/user.service';
+
+import { ClaseModel } from '../../models/clase.model';
+import { SubscritoModel, ResponseService } from '../../models/subscrito';
+import { UsuarioModel } from '../../models/usuario.model';
 
 import Swal from 'sweetalert2';
-import { SubscritoModel } from '../../models/subscrito';
 
 @Component({
   selector: 'app-class-card',
@@ -14,19 +17,22 @@ export class ClassCardComponent implements OnInit, OnChanges {
 
   // tslint:disable-next-line:no-input-rename
   @Input('data') clases: ClaseModel [];
-  @Input() tipoClase: boolean;
+  @Input() myclass;
 
   clase: ClaseModel;
   subscrito: SubscritoModel;
-  userAdmin = false;
+  data: UsuarioModel;
 
-  constructor( private shared: SharedService ) {
-
-  }
+  constructor(
+    private shared: SharedService,
+    private user: UserService
+    ) { }
 
   ngOnInit() {
-    this.userAdmin = localStorage.getItem('type') === 'admin' ? true : false;
-    console.log('tipo de clase: ', this.tipoClase);
+    this.user.getAllState().subscribe( state => {
+      const stateTemp: any = state;
+      this.data = stateTemp.appReducer;
+    });
   }
 
   subscribe( clase: ClaseModel ) {
@@ -40,11 +46,25 @@ export class ClassCardComponent implements OnInit, OnChanges {
 
       if ( resp.value ) {
         this.subscrito = {
-          clase: clase.id,
-          usuario: localStorage.getItem('id')
+          idclase: clase.id,
+          iduser: this.data.email
         };
         this.shared.crearSubscrito(this.subscrito)
-          .subscribe( console.log );
+          .subscribe( (res: ResponseService) => {
+            if (res.ok) {
+              Swal.fire({
+                title: clase.name,
+                text: res.mensaje,
+                type: 'success'
+              });
+            } else {
+              Swal.fire({
+                title: clase.name,
+                text: res.mensaje,
+                type: 'error'
+              });
+            }
+          });
       }
     });
   }
@@ -58,12 +78,10 @@ export class ClassCardComponent implements OnInit, OnChanges {
       showConfirmButton: true,
       showCancelButton: true
     }).then( resp => {
-
       if ( resp.value ) {
         this.clases.splice(i, 1);
         this.shared.borrarClase( clase.id ).subscribe();
       }
-
     });
 
   }

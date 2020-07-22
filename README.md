@@ -26,28 +26,38 @@ Una teniendo los archivos que componen la app web en tu Pc. debemos verificar qu
 
     1.- Node v10.15.3 o superior: Si no estas seguro sobre que version de node tienes instalada o si tienes instalado node en tu Pc debes ejecutar el siguiente comando 
 
+        ```
         node -v
-    
+        ```
+
     Esto de deberia arrojar la version de node, en caso de que no sea asi te dejo un link para su instalación. 
 
         https://nodejs.org/es/download/
 
     2.- Manejador de paquetes npm v6.14: este manejador de paquete por lo general viene con instalado por defecto cuando instalamos node pero de igual forma se los coloco para que verifiquen su existencia.
 
+        ```
         npm -v
-    
+        ```
+
     En caso de no tenerlo o querer actualizar su versión podrias probar el siguiente comando.
 
+        ```
         npm install -g npm@latest
+        ```
 
     3.- Angular/Cli v7.3.9 o superior: Angular cli es una herramienta que te permite crear y ejecutar proyectos de angular de una forma mas facil, rapida y sencilla, para consultar su versión debemos ejecutar en la terminal el comando
 
+        ```
         ng --version
-    
+        ```
+
     Esto deberia arrojar la versión instalada de lo contario deberá instalar la herramienta haciendo uso del siguiente comando.
 
+        ```
         npm install -g @angular/cli@latest
-
+        ```
+        
     Esto instalará la última versión estable, la cual es valida para este proyecto.
 
 ### Instalación 🔧

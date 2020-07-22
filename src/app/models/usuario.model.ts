@@ -3,12 +3,12 @@ export class UsuarioModel {
 
     email: string;
     password: string;
-    nombre: string;
-    typeUser: string;
+    name: string;
+    typeuser: boolean;
     id: string;
 
     constructor() {
-        this.typeUser = 'users';
+        this.typeuser = false;
     }
 
 }

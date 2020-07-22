@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsuarioModel } from './models/usuario.model';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,14 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'latech';
 
+  usuario: string;
+
+  constructor( ) {
+
+  }
+
   ngOnInit() {
-  localStorage.setItem('usuario', null);
-  localStorage.setItem('type', null);
-  localStorage.setItem('id', null);
+
   }
 
 }

@@ -30,7 +30,6 @@ export class AddClassComponent implements OnInit {
       this.shared.getClase( id )
         .subscribe( (resp: ClaseModel) => {
           this.clase = resp;
-          this.clase.id = id;
         });
     }
 
@@ -64,7 +63,6 @@ export class AddClassComponent implements OnInit {
         text: operacion,
         type: 'success'
       });
-
     });
 
   }

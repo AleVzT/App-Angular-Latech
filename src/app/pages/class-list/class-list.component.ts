@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
+import { UserService } from '../../services/user.service';
+
 import { ClaseModel } from '../../models/clase.model';
+import { UsuarioModel } from '../../models/usuario.model';
 
 import Swal from 'sweetalert2';
 
@@ -13,16 +16,19 @@ export class ClassListComponent implements OnInit {
 
   clases: ClaseModel[] = [];
 
-  userAdmin = false;
-  typeClass = false;
+  data: UsuarioModel;
 
   constructor(
-    private shared: SharedService
+    private shared: SharedService,
+    private user: UserService
   ) { }
 
   ngOnInit() {
 
-    this.userAdmin = localStorage.getItem('type') === 'admin' ? true : false;
+    this.user.getAllState().subscribe( state => {
+      const stateTemp: any = state;
+      this.data = stateTemp.appReducer;
+    });
 
     Swal.fire({
       allowOutsideClick: false,

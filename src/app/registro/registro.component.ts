@@ -31,20 +31,26 @@ export class RegistroComponent implements OnInit {
       text: 'Espere por favor...'
     });
     Swal.showLoading();
-
     this.auth.nuevoUsuario( this.usuario )
       .subscribe( resp => {
-
         Swal.close();
-        this.router.navigateByUrl('/login');
-      }, (err) => {
-
-        Swal.fire({
-          type: 'error',
-          title: 'Error al registrarse',
-          text: err.error.error.message
-        });
+        const data: any = resp; 
+        if (!data.ok) {
+          Swal.fire({
+            type: 'error',
+            title: 'Error al registrarse',
+            text: data.mensaje
+          });
+        } else {
+          Swal.fire({
+            type: 'success',
+            title: 'Registro completado',
+            text: data.mensaje
+          });
+          this.router.navigateByUrl('/login');
+        }
       });
+
   }
 
 }

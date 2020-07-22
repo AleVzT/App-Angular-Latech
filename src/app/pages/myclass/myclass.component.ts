@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
+import { UserService } from '../../services/user.service';
+
 import { ClaseModel } from '../../models/clase.model';
+import { UsuarioModel } from '../../models/usuario.model';
 
 import Swal from 'sweetalert2';
 
@@ -12,16 +15,19 @@ import Swal from 'sweetalert2';
 export class MyclassComponent implements OnInit {
 
   clases: ClaseModel[] = [];
-  userId: string;
-  typeClass = true;
+  data: UsuarioModel;
 
   constructor(
-    private shared: SharedService
+    private shared: SharedService,
+    private user: UserService
   ) { }
 
   ngOnInit() {
 
-    this.userId = localStorage.getItem('id');
+    this.user.getAllState().subscribe( state => {
+      const stateTemp: any = state;
+      this.data = stateTemp.appReducer;
+    });
 
     Swal.fire({
       allowOutsideClick: false,
@@ -29,8 +35,7 @@ export class MyclassComponent implements OnInit {
       text: 'Espere por favor...'
     });
     Swal.showLoading();
-
-    this.shared.consultarClase(this.userId)
+    this.shared.consultarClase(this.data.id)
       .subscribe( resp => {
         this.clases = resp;
         Swal.close();

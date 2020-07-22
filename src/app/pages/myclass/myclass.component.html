@@ -5,7 +5,7 @@
 
 <div class="row">
   <div class="col">
-    <app-class-card [data]="clases" [tipoClase]="typeClass"></app-class-card>
+    <app-class-card [data]="clases" [myclass]=true></app-class-card>
   </div>
   <div class="col m12" *ngIf="clases.length === 0">
     <div class="materialert">
